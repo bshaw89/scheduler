@@ -5,7 +5,7 @@ import "components/Application.scss";
 import "components/Appointment";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
 
 /* const appointments = [
   {
@@ -79,6 +79,9 @@ export default function Application(props) {
     });
   }, [])
 
+  const interviewers = getInterviewersForDay(state, state.day);
+  // const interview = getInterview(state, state.appointments.interview);
+
   return (
     <main className="layout">
       <section className="sidebar"> 
@@ -104,7 +107,7 @@ export default function Application(props) {
       <section className="schedule">
         <ul>
         {getAppointmentsForDay(state, state.day).map((appointment) =>
-          <Appointment key={appointment.id} interviewList={state.interviewers} {...appointment} />
+          <Appointment key={appointment.id} interviewList={interviewers} interview={getInterview(state, appointment.interview)} id={appointment.id} time={appointment.time} />
         )}
         <Appointment key="last" time="5pm" />
         </ul>

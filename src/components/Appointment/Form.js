@@ -40,7 +40,7 @@ export default function(props) {
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button onClick={cancel} danger>Cancel</Button>
+          <Button onClick={() => props.onCancel()} danger>Cancel</Button>
           <Button onClick={() => props.onSave(name, interviewer)} confirm>Save</Button>
         </section>
       </section>
