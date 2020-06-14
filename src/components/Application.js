@@ -25,24 +25,12 @@ export default function Application(props) {
       [id]: appointment
     };
     
-/*     {console.log('appointment:', appointment);
-    console.log('state.appointments[id].id:', state.appointments[id].id)
-    console.log('id:', id)
-    console.log('appointment.interview:', appointment.interview) // this is the interview data, same thing as just interview
-    console.log('interview:', interview)
-    console.log('appointments:', appointments) // this is the list of 25 interview slots with most interviews set to null
-  } */
-    
-  
-  
-    axios.put(`/api/appointments/${id}`, { interview }) // update what, and to what?
+    return axios.put(`/api/appointments/${id}`, { interview }) // needed a RETURN before axios..... GOD...
       .then(response => {
         console.log(response);
       })
-      .catch((e) => {console.log(e)})
-      
-     setState({ ...state, appointments });
-    
+      // .catch((e) => {console.log(e)})
+      .then(() => setState({ ...state, appointments }))
   }
 
   function cancelInterview(id, interview) {
@@ -56,14 +44,12 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    axios.delete(`/api/appointments/${id}`, { interview: null })
+    return axios.delete(`/api/appointments/${id}`, { interview: null })
       .then(response => {
         console.log(response);
       })
-      .catch((e) => {console.log(e)});
-
-      setState({ ...state, appointments });
-
+      // .catch((e) => {console.log(e)})
+      .then(() => setState({ ...state, appointments }))
 
   }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios"; // needed this
 
 import "./styles.scss";
 
@@ -9,6 +10,7 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -17,8 +19,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
-
-
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
@@ -30,20 +32,25 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    console.log(name, interviewer);
+    // console.log(name, interviewer);
     transition(SAVING);
-    props.bookInterview(props.id, interview);
-    transition(SHOW);
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(error => transition(ERROR_SAVE, true));
     // transition to SHOW
   }
 
-  function deleteIntv(name, interviewer) {
-    const interview = {
-      student: name,
-      interviewer
-    };
-    props.cancelInterview(props.id, interview)
-    transition(EMPTY);
+  function deleteIntv(event) {
+    // const interview = {
+    //   student: name,
+    //   interviewer
+    // };
+    transition(DELETING, true);
+    props 
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch(error => transition(ERROR_DELETE, true));
   }
 
   // need to capture value and preload form
@@ -70,7 +77,8 @@ export default function Appointment(props) {
     />}
 
     {mode === SAVING && <Status />}
-    {mode === CONFIRM && <Confirm onConfirm={deleteIntv} onCancel={back}/>}
+    {mode === DELETING && <Status />}
+    {mode === CONFIRM && <Confirm onConfirm={deleteIntv} onCancel={back} />}
     {mode === EDIT && <Form
       name={props.interview.student}
       interviewers={props.interviewList}
@@ -78,6 +86,8 @@ export default function Appointment(props) {
       onSave={save}
       onCancel={back}
   />}
+    {mode === ERROR_SAVE && <Error message={props.message} onClose={back} />}
+    {mode === ERROR_DELETE && <Error message={props.message} onClose={back} />}
       {/* { props.interview ? <Show student={props.interview.student} interviewer={props.interviewList[props.interview.interviewer]}/> : <Empty /> } */}
     </article>
   )
