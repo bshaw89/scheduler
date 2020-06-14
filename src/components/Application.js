@@ -25,13 +25,13 @@ export default function Application(props) {
       [id]: appointment
     };
     
-    {console.log('appointment:', appointment);
+/*     {console.log('appointment:', appointment);
     console.log('state.appointments[id].id:', state.appointments[id].id)
     console.log('id:', id)
     console.log('appointment.interview:', appointment.interview) // this is the interview data, same thing as just interview
     console.log('interview:', interview)
     console.log('appointments:', appointments) // this is the list of 25 interview slots with most interviews set to null
-  }
+  } */
     
   
   
@@ -41,30 +41,7 @@ export default function Application(props) {
       })
       .catch((e) => {console.log(e)})
       
-      {// console.log(id, interview, appointment);
-      
-      // PROBLEM: make an axios PUT request to /api/appointments/:id
-      // with interview data in the body
-      // to update database with the appointment data
-      // QUESTIONS
-      // 1. does :id need to refer to the id argument? $(id) --> try both
-      //    - looks like data fetching or calling an API counts as a side effect in React
-      // 2. do I need to wrap the axios call in useEffect? --> look up useEffect
-      //    - A. looks like YES
-      //    - except maybe not because it's inside a normal function (not a custom Hook or React function)
-      // 3. do I need to use a Promise?
-      // 4. How do I put the interview data in the body? Using the interview argument?
-      
-      // STEPS
-      // 1. Make the request --> should receive 204 No Content response
-      
-      // useEffect: tells React your component needs to do something after render
-      // React will remember function passed ('effect') and call it later after performing the DOM updates
-      // useEffect called inside components gives it access to the props and component scope
-      // useEffect runs after every render (i.e. 'after render')
-}
-      
-      setState({ ...state, appointments });
+     setState({ ...state, appointments });
     
   }
 

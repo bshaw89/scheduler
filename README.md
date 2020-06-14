@@ -21,3 +21,6 @@ npm test
 ```sh
 npm run storybook
 ```
+## CURRENT BUGS
+- `TypeError` when page loads with no interviews booked
+- Transition animations aren't working

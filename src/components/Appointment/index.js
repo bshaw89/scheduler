@@ -16,6 +16,7 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
 
 
 
@@ -41,10 +42,11 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    transition(DELETING);
-    props.cancelInterview(props.id, interview);
+    props.cancelInterview(props.id, interview)
     transition(EMPTY);
   }
+
+  // need to capture value and preload form
 
   return (
     <article className="appointment">
@@ -54,7 +56,7 @@ export default function Appointment(props) {
     <Show
       student={props.interview.student}
       interviewer={props.interview.interviewer}
-      onEdit={props.onEdit}
+      onEdit={() => transition(EDIT)}
       onDelete={() => transition(CONFIRM)}
       interviewers={props.interviewList}
     />
@@ -69,6 +71,13 @@ export default function Appointment(props) {
 
     {mode === SAVING && <Status />}
     {mode === CONFIRM && <Confirm onConfirm={deleteIntv} onCancel={back}/>}
+    {mode === EDIT && <Form
+      name={props.interview.student}
+      interviewers={props.interviewList}
+      interviewer={props.interview.interviewer.id}
+      onSave={save}
+      onCancel={back}
+  />}
       {/* { props.interview ? <Show student={props.interview.student} interviewer={props.interviewList[props.interview.interviewer]}/> : <Empty /> } */}
     </article>
   )
