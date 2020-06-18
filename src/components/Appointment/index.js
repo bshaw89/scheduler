@@ -56,7 +56,7 @@ export default function Appointment(props) {
   // need to capture value and preload form
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
     <Header time={props.time} />
     {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
   {mode === SHOW && (
@@ -76,8 +76,8 @@ export default function Appointment(props) {
       onCancel={back}
     />}
 
-    {mode === SAVING && <Status />}
-    {mode === DELETING && <Status />}
+    {mode === SAVING && <Status message={"Saving"} />}
+    {mode === DELETING && <Status message={"Deleting"} />}
     {mode === CONFIRM && <Confirm onConfirm={deleteIntv} onCancel={back} />}
     {mode === EDIT && <Form
       name={props.interview.student}
@@ -86,8 +86,8 @@ export default function Appointment(props) {
       onSave={save}
       onCancel={back}
   />}
-    {mode === ERROR_SAVE && <Error message={props.message} onClose={back} />}
-    {mode === ERROR_DELETE && <Error message={props.message} onClose={back} />}
+    {mode === ERROR_SAVE && <Error message={"Could not save appointment"} onClose={back} />}
+    {mode === ERROR_DELETE && <Error message={"Could not delete appointment"} onClose={back} />}
       {/* { props.interview ? <Show student={props.interview.student} interviewer={props.interviewList[props.interview.interviewer]}/> : <Empty /> } */}
     </article>
   )

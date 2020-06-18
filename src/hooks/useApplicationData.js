@@ -11,27 +11,50 @@ const [state, setState] = useState({
 
 
 function bookInterview(id, interview) {
-  const days = [...state.days]
+  /* const days = [...state.days]
   days.forEach(day => {
     if (day.appointments.includes(id)) {
-      console.log(state.appointments[id]);
-      console.log(state.appointments);
       if (!state.appointments[id].interview) {
         day.spots--;
       }
     }
-  })
+  }) */
 
   const appointment = {
     ...state.appointments[id],
     interview: { ...interview }
   };
 
-
   const appointments = {
     ...state.appointments,
     [id]: appointment
   };
+
+  let daysArray = []
+  const appointmentCount = () => {
+    let count = 0
+
+    state.days.forEach(day => {
+      if (day.appointments.includes(id)) {
+        daysArray = day.appointments
+      }
+    })
+
+    for (let dayElement of daysArray) {
+      if (!appointments[dayElement].interview) {
+        count++
+      }
+    }
+    return count
+  }
+
+  const days = state.days.map(day => {
+    if (day.appointments.includes(id)) {
+      return { ...day, spots: appointmentCount() }
+    }
+    return day
+  })
+
 
   
   return axios.put(`/api/appointments/${id}`, { interview }) // needed a RETURN before axios..... GOD...
@@ -53,15 +76,41 @@ function cancelInterview(id, interview) {
     ...state.appointments,
     [id]: appointment
   };
-  console.log(state);
 
-  const days = [...state.days]
+  let daysArray = []
+  const appointmentCount = () => {
+    let count = 0
+
+    state.days.forEach(day => {
+      if (day.appointments.includes(id)) {
+        daysArray = day.appointments
+      }
+    })
+
+    for (let dayElement of daysArray) {
+      if (!appointments[dayElement].interview) {
+        count++
+      }
+    }
+    return count
+  }
+
+  const days = state.days.map(day => {
+    if (day.appointments.includes(id)) {
+      return { ...day, spots: appointmentCount() }
+    }
+    return day
+  })
+
+
+/*   const days = [...state.days]
   days.forEach(day => {
     if (day.appointments.includes(id)) {
       day.spots++;
     }
   }) 
-  console.log(days);
+  console.log(days); */
+
   return axios.delete(`/api/appointments/${id}`, { interview: null })
     .then(response => {
       console.log(response);
