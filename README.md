@@ -21,6 +21,6 @@ npm test
 ```sh
 npm run storybook
 ```
-## CURRENT BUGS
-- `TypeError` when page loads with no interviews booked
-- Transition animations aren't working
+## Screenshots
+!["Form for booking new appointment"](https://github.com/bshaw89/scheduler/blob/master/docs/appointment-form.png?raw=true)
+!["Showing delete appointment confirmation & booked interview"](https://github.com/bshaw89/scheduler/blob/master/docs/delete-appointment.png?raw=true)
