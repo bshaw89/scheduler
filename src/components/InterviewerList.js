@@ -17,7 +17,7 @@ export default function InterviewerList(props) {
             setInterviewer={(event) => props.onChange(item.id)}
             avatar={item.avatar}
             id={item.id} />
-        )};
+        )}
       </ul>
     </section>
   );
