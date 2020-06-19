@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
-export default function(props) {
+export default function (props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
-  
-  const reset = function() {
+
+  const reset = function () {
     setInterviewer(null);
     setName("");
   }
 
   const cancel = () => {
+    props.onCancel();
     reset();
   }
 
@@ -21,13 +22,15 @@ export default function(props) {
       setError("Student name cannot be blank");
       return;
     }
-    setError("");
+    if (interviewer === null) {
+      setError("Must select an interviewer");
+      return;
+    }
     props.onSave(name, interviewer);
   }
 
   const save = () => {
     validate()
-    // props.onSave(name, interviewer);
   }
 
   return (
@@ -46,10 +49,10 @@ export default function(props) {
             data-testid="student-name-input"
           />
           <section className="appointment__validation">{error}</section>
-          <InterviewerList 
-            interviewers={props.interviewers} 
-            interviewer={interviewer} // correct: interviewer
-            onChange={setInterviewer} 
+          <InterviewerList
+            interviewers={props.interviewers}
+            interviewer={interviewer}
+            onChange={setInterviewer}
           />
         </form>
       </section>
@@ -60,5 +63,5 @@ export default function(props) {
         </section>
       </section>
     </main>
-  )
-}
+  );
+};
